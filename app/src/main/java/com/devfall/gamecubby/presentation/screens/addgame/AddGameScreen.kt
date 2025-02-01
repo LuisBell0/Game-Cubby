@@ -1,8 +1,11 @@
 package com.devfall.gamecubby.presentation.screens.addgame
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -53,13 +56,15 @@ fun AddGameScreen() {
             modifier = Modifier
                 .background(MaterialTheme.colorScheme.background)
                 .fillMaxSize()
-                .padding(paddingValues)
+                .padding(paddingValues),
+            contentPadding = PaddingValues(
+                horizontal = 16.dp
+            )
         ) {
             item(key = "game_title") {
                 OutlinedTextField(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(12.dp),
+                        .fillMaxWidth(),
                     value = gameNameState,
                     onValueChange = {
                         gameNameState = it
@@ -74,8 +79,7 @@ fun AddGameScreen() {
             item(key = "game_comments") {
                 OutlinedTextField(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(12.dp),
+                        .fillMaxWidth(),
                     value = gameCommentState,
                     onValueChange = {
                         gameCommentState = it
@@ -88,7 +92,8 @@ fun AddGameScreen() {
             }
 
             item(key = "add_image_button") {
-                AddImageButton(modifier = Modifier.padding(12.dp))
+                Spacer(modifier = Modifier.height(12.dp))
+                AddImageButton()
             }
         }
     }
