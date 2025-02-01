@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import com.devfall.gamecubby.presentation.screens.navigation.Navigation
+import com.devfall.gamecubby.presentation.screens.base.BaseScreen
 import com.devfall.gamecubby.presentation.theme.GameCubbyTheme
 
 class MainActivity : ComponentActivity() {
@@ -13,7 +13,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             GameCubbyTheme {
-                Navigation()
+                BaseScreen()
             }
         }
     }

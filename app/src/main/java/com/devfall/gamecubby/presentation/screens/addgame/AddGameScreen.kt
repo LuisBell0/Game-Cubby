@@ -1,12 +1,10 @@
 package com.devfall.gamecubby.presentation.screens.addgame
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -19,20 +17,18 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.devfall.gamecubby.presentation.screens.addgame.components.AddImageButton
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddGameScreen() {
-    var gameNameState by remember{ mutableStateOf("") }
+    var gameNameState by remember { mutableStateOf("") }
     var gameCommentState by remember { mutableStateOf("") }
 
     Scaffold(
-        modifier = Modifier
-            .fillMaxSize(),
         topBar = {
             TopAppBar(
                 modifier = Modifier.fillMaxWidth(),
@@ -53,60 +49,48 @@ fun AddGameScreen() {
             )
         },
     ) { paddingValues ->
-        Column(
+        LazyColumn(
             modifier = Modifier
                 .background(MaterialTheme.colorScheme.background)
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
-            OutlinedTextField(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(12.dp),
-                value = gameNameState,
-                onValueChange = {
-                    gameNameState = it
-                },
-                label = {
-                    Text(text = "Game Title")
-                },
-                singleLine = true,
-            )
-            OutlinedTextField(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(12.dp),
-                value = gameCommentState,
-                onValueChange = {
-                    gameCommentState = it
-                },
-                label = {
-                    Text(text = "Game Comments")
-                },
-                minLines = 5,
-            )
-            AddImageBtn(modifier = Modifier.padding(12.dp))
+            item(key = "game_title") {
+                OutlinedTextField(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(12.dp),
+                    value = gameNameState,
+                    onValueChange = {
+                        gameNameState = it
+                    },
+                    label = {
+                        Text(text = "Game Title")
+                    },
+                    singleLine = true,
+                )
+            }
+
+            item(key = "game_comments") {
+                OutlinedTextField(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(12.dp),
+                    value = gameCommentState,
+                    onValueChange = {
+                        gameCommentState = it
+                    },
+                    label = {
+                        Text(text = "Game Comments")
+                    },
+                    minLines = 5,
+                )
+            }
+
+            item(key = "add_image_button") {
+                AddImageButton(modifier = Modifier.padding(12.dp))
+            }
         }
     }
 }
 
-@Composable
-fun AddImageBtn(modifier: Modifier = Modifier) {
-    Button(
-        onClick = {},
-        modifier = modifier,
-        colors = ButtonDefaults.buttonColors(
-            containerColor = MaterialTheme.colorScheme.background,
-            contentColor = MaterialTheme.colorScheme.onBackground
-        ),
-        shape = MaterialTheme.shapes.small,
-        elevation = ButtonDefaults.buttonElevation(defaultElevation = 4.dp),
-    ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text(text = "Icon")
-            Text(text = "Add Image")
-        }
-    }
-}

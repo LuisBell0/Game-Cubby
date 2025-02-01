@@ -1,6 +1,5 @@
 package com.devfall.gamecubby.presentation.screens.home
 
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,26 +19,22 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import com.devfall.gamecubby.presentation.screens.Screen
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import org.koin.compose.viewmodel.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(navController: NavController, viewModel: HomeScreenViewModel = viewModel()) {
-    val games by viewModel.games.collectAsState()
-
-    LaunchedEffect(Unit) {
-        viewModel.fetchGames() // Fetch games when the screen loads
-    }
+fun HomeScreen(
+    navigateToAddGameScreen: () -> Unit
+) {
+    val viewModel = koinViewModel<HomeScreenViewModel>()
+    val games by viewModel.games.collectAsStateWithLifecycle()
 
     Scaffold(
-        modifier = Modifier.fillMaxSize(),
         topBar = {
             TopAppBar(
                 modifier = Modifier.fillMaxWidth(),
@@ -65,11 +60,9 @@ fun HomeScreen(navController: NavController, viewModel: HomeScreenViewModel = vi
                     containerColor = MaterialTheme.colorScheme.primary
                 ),
                 shape = MaterialTheme.shapes.medium,
-                onClick = {
-                    navController.navigate(route = Screen.AddGameScreen.route)
-                }
+                onClick = navigateToAddGameScreen
             ) {
-                Text("+ Add Game")
+                Text(text = "+ Add Game")
             }
         }
     ) { paddingValues ->
@@ -79,7 +72,7 @@ fun HomeScreen(navController: NavController, viewModel: HomeScreenViewModel = vi
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
-            items(games) { game ->
+            items(games, key = { "game_${it.id}" }) { game ->
                 GameCard(game)
             }
         }
