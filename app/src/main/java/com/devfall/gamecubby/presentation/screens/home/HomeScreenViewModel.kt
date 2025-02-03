@@ -9,13 +9,13 @@ import kotlinx.coroutines.launch
 data class Game(
     val id: Int,
     val name: String = "",
-    val numberOfPlayers: Int = 0,
+    val playerIds: List<Int> = emptyList(),
 )
 
 // TEMPORARY DATA
-val game1: Game = Game(id = 1, name="Monopoly", numberOfPlayers = 2)
-val game2: Game = Game(id = 2, name="Uno", numberOfPlayers = 4)
-val game3: Game = Game(id = 3, name="Jenga", numberOfPlayers = 3)
+val game1: Game = Game(id = 1, name="Monopoly", playerIds = listOf(1,2,3))
+val game2: Game = Game(id = 2, name="Uno", playerIds = listOf(4,5,6))
+val game3: Game = Game(id = 3, name="Jenga", playerIds = listOf(7,8,9))
 
 val gamesList: List<Game> = listOf(game1, game2, game3)
 

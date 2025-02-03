@@ -22,14 +22,15 @@ fun AddImageButton() {
             contentColor = MaterialTheme.colorScheme.onBackground
         ),
         shape = MaterialTheme.shapes.small,
-        elevation = ButtonDefaults.buttonElevation(defaultElevation = 4.dp),
+        elevation = ButtonDefaults.buttonElevation(defaultElevation = 2.dp),
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Icon(
                 imageVector = Icons.Default.Add,
-                contentDescription = null
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.onPrimaryContainer
             )
             Text(text = "Add Image")
         }
