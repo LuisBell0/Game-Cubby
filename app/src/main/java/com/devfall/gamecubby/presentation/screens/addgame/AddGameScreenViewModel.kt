@@ -1,7 +1,9 @@
 package com.devfall.gamecubby.presentation.screens.addgame
 
+import android.net.Uri
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateMapOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.devfall.gamecubby.data.models.PlayersEntity
 
@@ -9,11 +11,14 @@ import com.devfall.gamecubby.data.models.PlayersEntity
 class AddGameScreenViewModel : ViewModel() {
     val playerNames = mutableStateMapOf<Int, String>()
     val playerComments = mutableStateMapOf<Int, String>()
-    val players = mutableStateListOf<PlayersEntity>(PlayersEntity(id = 1, name = "", comments = "", images = ""))
+    val players = mutableStateListOf<PlayersEntity>(PlayersEntity(id = 1, name = "", comments = "", image = ""))
+
+    var imageUri = mutableStateOf<Uri?>(null)
+    var showDialog = mutableStateOf(false)
 
     fun addPlayer() {
         val newId = players.size + 1
-        players.add(PlayersEntity(id = newId, name = "", comments = "", images = ""))
+        players.add(PlayersEntity(id = newId, name = "", comments = "", image = ""))
         playerNames[newId] = ""
         playerComments[newId] = ""
     }

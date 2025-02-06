@@ -158,7 +158,7 @@ fun AddGameScreen() {
                                 }
                             }
                         }
-                        Spacer(modifier = Modifier.height(12.dp))
+                        Spacer(modifier = Modifier.height(16.dp))
                         OutlinedTextField(
                             modifier = Modifier
                                 .fillMaxWidth(),
