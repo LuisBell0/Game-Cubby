@@ -17,8 +17,12 @@ import androidx.core.content.FileProvider
 import com.devfall.gamecubby.presentation.screens.addgame.AddGameScreenViewModel
 import java.io.File
 
+/*
 @Composable
-fun ImageSourceDialog(viewModel: AddGameScreenViewModel) {
+fun ImageSourceDialog(
+    getShowImageDialog: () -> Boolean,
+    closeImageDialog: () -> Unit
+) {
 
     val galleryLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
@@ -73,4 +77,4 @@ fun ImageSourceDialog(viewModel: AddGameScreenViewModel) {
             }
         )
     }
-}
+}*/

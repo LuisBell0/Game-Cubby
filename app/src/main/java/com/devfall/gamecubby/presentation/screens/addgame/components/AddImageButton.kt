@@ -25,21 +25,28 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import coil.compose.rememberAsyncImagePainter
 import com.devfall.gamecubby.presentation.screens.addgame.AddGameScreenViewModel
 import org.koin.compose.viewmodel.koinViewModel
 
-@Composable
+/*@Composable
 fun AddImageButton() {
-    val viewModel = koinViewModel<AddGameScreenViewModel>()
 
-    ImageSourceDialog(viewModel)
+    var showImageDialog by remember { mutableStateOf(false) }
+
+    ImageSourceDialog(
+        getShowImageDialog = { showImageDialog },
+        closeImageDialog = { showImageDialog = false }
+    )
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -51,7 +58,7 @@ fun AddImageButton() {
             modifier = Modifier
                 .fillMaxHeight(),
             onClick = {
-                viewModel.showDialog.value = true
+                showImageDialog = true
             },
             colors = ButtonDefaults.buttonColors(
                 containerColor = MaterialTheme.colorScheme.background,
@@ -111,6 +118,6 @@ fun AddImageButton() {
 @Composable
 fun PreviewAddImageButton() {
     AddImageButton()
-}
+}*/
 
 

@@ -1,50 +1,126 @@
 package com.devfall.gamecubby.presentation.screens.addgame
 
-import android.net.Uri
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateMapOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import com.devfall.gamecubby.data.models.PlayersEntity
+import com.devfall.gamecubby.domain.models.Game
+import com.devfall.gamecubby.domain.models.Player
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 
 
 class AddGameScreenViewModel : ViewModel() {
-    val playerNames = mutableStateMapOf<Int, String>()
-    val playerComments = mutableStateMapOf<Int, String>()
-    val players = mutableStateListOf<PlayersEntity>(PlayersEntity(id = 1, name = "", comments = "", image = ""))
 
-    var imageUri = mutableStateOf<Uri?>(null)
-    var showDialog = mutableStateOf(false)
+    private val _game = MutableStateFlow(
+        Game(
+            id = 0,
+            name = "",
+            comments = "",
+            images = emptyList(),
+            players = listOf(Player(id = 0))
+        )
+    )
+    val game = _game.asStateFlow()
 
-    fun addPlayer() {
-        val newId = players.size + 1
-        players.add(PlayersEntity(id = newId, name = "", comments = "", image = ""))
-        playerNames[newId] = ""
-        playerComments[newId] = ""
+    fun updateGameName(name: String) {
+        _game.update {
+            it.copy(
+                name = name
+            )
+        }
     }
 
-    fun removePlayer(player: PlayersEntity) {
-        val indexToRemove = players.indexOf(player)
-        if (indexToRemove == -1) return
+    fun updateGameComments(comments: String) {
+        _game.update {
+            it.copy(
+                comments = comments
+            )
+        }
+    }
 
-        // Remove player
-        players.removeAt(indexToRemove)
-        playerNames.remove(player.id)
-        playerComments.remove(player.id)
+    fun addGameImage(image: String) {
+        _game.update {
+            it.copy(
+                images = it.images + image
+            )
+        }
+    }
 
-        // Shift remaining players' data and reassign IDs
-        for (i in indexToRemove until players.size) {
-            val nextPlayer = players[i]
-            val newId = i + 1  // Ensure IDs remain sequential
-            players[i] = nextPlayer.copy(id = newId)
+    fun removeGameImage(imageIndex: Int) {
+        _game.update {
+            val imagesMut = it.images.toMutableList()
+            imagesMut.removeAt(imageIndex)
+            it.copy(
+                images = imagesMut
+            )
+        }
+    }
 
-            // Update the state maps for names and comments
-            playerNames[newId] = playerNames[nextPlayer.id] ?: ""
-            playerComments[newId] = playerComments[nextPlayer.id] ?: ""
+    fun addPlayer() {
+        _game.update {
+            if (_game.value.players.isEmpty()) {
+                it.copy(
+                    players = listOf(Player(id = 0))
+                )
+            }
+            else {
+                it.copy(
+                    players = it.players + Player(id = it.players.last().id + 1)
+                )
+            }
+        }
+    }
 
-            // Remove old keys to prevent duplicate keys
-            playerNames.remove(nextPlayer.id)
-            playerComments.remove(nextPlayer.id)
+    fun removePlayer(playerIndex: Int) {
+        _game.update {
+            val playersMut = it.players.toMutableList()
+            playersMut.removeAt(playerIndex)
+            it.copy(
+                players = playersMut.mapIndexed { index, player ->
+                    player.copy(id = index)
+                }
+            )
+        }
+    }
+
+    fun updatePlayerName(playerIndex: Int, name: String) {
+        _game.update {
+            val playersMut = it.players.toMutableList()
+            playersMut[playerIndex] = playersMut[playerIndex].copy(name = name)
+            it.copy(
+                players = playersMut
+            )
+        }
+    }
+
+    fun updatePlayerComments(playerIndex: Int, comments: String) {
+        _game.update {
+            val playersMut = it.players.toMutableList()
+            playersMut[playerIndex] = playersMut[playerIndex].copy(comments = comments)
+            it.copy(
+                players = playersMut
+            )
+        }
+    }
+
+   fun addPlayerImage(playerIndex: Int, image: String) {
+       _game.update {
+           val playersMut = it.players.toMutableList()
+           playersMut[playerIndex] = playersMut[playerIndex].copy(images = playersMut[playerIndex].images + image)
+           it.copy(
+               players = playersMut
+           )
+       }
+   }
+
+    fun removePlayerImage(playerIndex: Int, imageIndex: Int) {
+        _game.update {
+            val playersMut = it.players.toMutableList()
+            val imagesMut = playersMut[playerIndex].images.toMutableList()
+            imagesMut.removeAt(imageIndex)
+            playersMut[playerIndex] = playersMut[playerIndex].copy(images = imagesMut)
+            it.copy(
+                players = playersMut
+            )
         }
     }
 }
